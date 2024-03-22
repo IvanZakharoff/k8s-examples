@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-deployment
+  template:
+    metadata:
+      labels:
+        app: app-deployment
+    spec:
+      containers:
+      - name: app
+        image: ${image}
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        envFrom: 
+          - configMapRef:
+              name: postgres-config
+        ports:
+        - containerPort: 8000
